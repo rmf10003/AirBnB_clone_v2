@@ -32,7 +32,8 @@ class FileStorage:
                 if cls == v.__class__:
                     newDict[k] = v
             return newDict
-        return self.__objects
+        else:
+            return self.__objects
 
     def new(self, obj):
         """sets __object to given obj

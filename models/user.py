@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the user class"""
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from os import getenv
 
 
 

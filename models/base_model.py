@@ -8,7 +8,12 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from os import getenv
 
-Base = declarative_base()
+
+storageType = getenv("HBNB_TYPE_STORAGE")
+if storageType == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 class BaseModel:
     """This class will defines all common attributes/methods

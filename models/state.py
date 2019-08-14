@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """This is the state class"""
 from models.base_model import BaseModel, Base
-from sqlalchem import Column, String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-# import genenv??
+from os import getenv
 
 class State(BaseModel, Base):
     """This is the class for State
@@ -13,11 +13,11 @@ class State(BaseModel, Base):
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
     #only for db storage
-    if HBNB_TYPE_STORAGE == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship("City", back_populates="state", cascade="all, delete, delete-orphan")
-    elif HBNB_TYPE_STORAGE == 'file':
+    elif getenv('HBNB_TYPE_STORAGE') == 'file':
         @property
-        def cities = (self):
+        def cities(self):
             c_list = []
             #not sure if City is callable
             #link getter to init?

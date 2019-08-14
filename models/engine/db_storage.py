@@ -23,12 +23,11 @@ class DBStorage:
     def __init__(self):
         """constructor for DBStorage instances
         """
-#the engine must be linked to the MySQL database and user created before (hbnb_dev and hbnb_dev_db): 6.)
-    HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
-    HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
-    HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
-    HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
-    HBNB_ENV = getenv('HBNB_ENV')
+        HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
+        HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
+        HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
+        HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
+        HBNB_ENV = getenv('HBNB_ENV')
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'\
                                         .format(HBNB_MYSQL_USER,
@@ -71,6 +70,6 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         sessLoad = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sessLoad)
-        self.__session = Sessionf close(self):
+        self.__session = Sessionf.close(self)
         ''' calls remove() method on private session att '''
         self.__session.remove()

@@ -9,8 +9,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from os import getenv
 
 
-storageType = getenv("HBNB_TYPE_STORAGE")
-if storageType == "db":
+storage = getenv("HBNB_TYPE_STORAGE")
+if storage == "db":
     Base = declarative_base()
 else:
     Base = object

@@ -3,9 +3,9 @@
 import uuid
 import models
 from datetime import datetime
-import sqlalchmey
-from sqlalchmey import Column, String, DateTime
-from sqlalchmey.ext.declarative import declarative_base
+import sqlalchemy
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.ext.declarative import declarative_base
 from os import getenv
 
 Base = declarative_base()

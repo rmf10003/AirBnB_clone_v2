@@ -67,7 +67,8 @@ class FileStorage:
     def delete(self, obj=None):
         """ deletes obj from self.__objects dict if obj exits already
         """
-        key = "{}.{}".format(type(obj).__name__, obj.id)
-        if key in self.__objects.keys():
-            del self.__objects[key]
+        if obj is not None:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if key in self.__objects.keys():
+                del self.__objects[key]
         FileStorage.save(self)

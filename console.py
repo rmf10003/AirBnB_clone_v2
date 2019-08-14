@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """This is the console for AirBnB"""
 import cmd
+import models
+import shlex
 from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
@@ -39,14 +41,33 @@ class HBNBCommand(cmd.Cmd):
         """
         try:
             if not line:
+                
                 raise SyntaxError()
-            my_list = line.split(" ")
-            obj = eval("{}()".format(my_list[0]))
+            parser = shlex.shlex(line, posix=True)
+            parser.whitespace_split = True
+
+            my_list = []
+            token = ''
+            while token is not None:
+                token = parser.get_token()
+                if token != None:
+                    my_list.append(token)
+
+            kwargs = {}
+            for param in my_list[1:]:
+                key, part, value = param.partition('=')
+                if value.isdigit() is True:
+                    kwargs[key] = int(value)
+                elif value.count('.') == 1 and value.replace('.','').isdigit() is True:
+                    kwargs[key] = float(value)
+                else:
+                    kwargs[key] = value.replace('_',' ')
+            obj = models.classes[my_list[0]](**kwargs)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
-        except NameError:
+        except KeyError:
             print("** class doesn't exist **")
 
     def do_show(self, line):

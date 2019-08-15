@@ -2,9 +2,9 @@
 """module for database storage class for AirBnB"""
 import models
 from models.base_model import BaseModel, Base
+from models.city import City
 from models.user import User
 from models.state import State
-from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
@@ -18,6 +18,7 @@ class DBStorage:
     """ class for DBstorage """
     __engine = None
     __session = None
+    classes = {'State': State, 'City': City}
 
     def __init__(self):
         """constructor for DBStorage instances
@@ -29,28 +30,25 @@ class DBStorage:
         HBNB_ENV = getenv('HBNB_ENV')
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                        .format(HBNB_MYSQL_USER,
-                                                HBNB_MYSQL_PWD,
-                                                HBNB_MYSQL_HOST,
-                                                HBNB_MYSQL_DB),
-                                                pool_pre_ping=True)
-        print("butthole2\n\n\n\n\n")
+                                      .format(HBNB_MYSQL_USER,
+                                              HBNB_MYSQL_PWD,
+                                              HBNB_MYSQL_HOST,
+                                              HBNB_MYSQL_DB),
+                                      pool_pre_ping=True)
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         ''' Query on current DB session '''
         new_dict = {}
-        for c in models.classes.keys():
-            print("yolo mofo {}\n\n".format(c))
-            if cls is None or cls is c:
-                obj = self.__session.query(models.classes[c]).all()
-                for o in obj:
-                    #not sure if key is correct
-                    key = c + '.' + o.id
-                    new_dict[key] = o
+        for class_name in self.classes.keys():
+            if cls is None or cls == class_name:
+                obj_list = self.__session.query(self.classes[class_name]).all()
+                for obj in obj_list:
+                    # not sure if key is correct
+                    key = obj.__class__.__name__ + '.' + obj.id
+                    new_dict[key] = obj
         return (new_dict)
-
 
     def new(self, obj):
         ''' adds objects to current DB session '''
@@ -68,11 +66,9 @@ class DBStorage:
 
     def reload(self):
         ''' reloads data from DB '''
-        print("butthole\n\n\n\n\n")
-        print("{}".format(type(self.__engine)))
         Base.metadata.create_all(self.__engine)
-        print("butthole\n\n\n\n\n")
-        Session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
-        print("butthole\n\n\n\n\n")
+
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        Session = scoped_session(session_factory)
         self.__session = Session()
-        print("butthole\n\n\n\n\n")

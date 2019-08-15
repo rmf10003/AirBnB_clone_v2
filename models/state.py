@@ -25,8 +25,6 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             c_list = []
-            '''###########not sure if City is callable
-            ############link getter to init?'''
             aC_dict = models.storage.all(City)
             for c_objs in aC_dict.values():
                 if c_objs.state_id == self.id:

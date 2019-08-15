@@ -6,8 +6,7 @@ from sqlalchemy import Column, String
 from os import getenv
 
 
-
-class User(BaseModel, Base):
+class User(BaseModel):
     """This is the class for user
     Attributes:
         email: email address
@@ -15,8 +14,8 @@ class User(BaseModel, Base):
         first_name: first name
         last_name: last name
     """
-    __tablename__ = "users"
 
+    __tablename__ = "users"
     # if getenv('HBNB_TYPE_STORAGE') == 'db':
     #     email = Column(String(128), nullable=False)
     #     password = Column(String(128), nullable=False)

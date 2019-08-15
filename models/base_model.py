@@ -11,6 +11,7 @@ from os import getenv
 
 Base = declarative_base()
 
+
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
@@ -39,7 +40,6 @@ class BaseModel:
         if 'id' not in self.__dict__.keys():
                 self.id = str(uuid.uuid4())
                 self.created_at = self.updated_at = datetime.now()
-
 
     def __str__(self):
         """returns a string
@@ -75,8 +75,7 @@ class BaseModel:
         return my_dict
 
     def delete(self):
-        """deletes current instance from the storage by 
+        """deletes current instance from the storage by
         calling the storage delete method
         """
         models.storage.delete()
-        

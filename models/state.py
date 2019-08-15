@@ -6,23 +6,27 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 from os import getenv
 
+
 class State(BaseModel, Base):
     """This is the class for State
     Attributes:
         name: input name
     """
     __tablename__ = 'states'
-    #only for db storage
+
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         name = Column(String(128), nullable=False)
-        cities = relationship("City", back_populates="state", cascade="all, delete, delete-orphan")
+        cities = relationship("City",
+                              back_populates="state",
+                              cascade="all, delete, delete-orphan")
     elif getenv('HBNB_TYPE_STORAGE') == 'file':
         name = ""
+
         @property
         def cities(self):
             c_list = []
-            #not sure if City is callable
-            #link getter to init?
+            '''###########not sure if City is callable
+            ############link getter to init?'''
             aC_dict = models.storage.all(City)
             for c_objs in aC_dict.values():
                 if c_objs.state_id == self.id:

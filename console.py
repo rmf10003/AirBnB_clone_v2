@@ -134,26 +134,40 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
+    # def do_all(self, line):
+    #     parser = shlex(line, posix=True)
+    #     parser.quotes = ''
+    #     class_name = parser.get_token()
+    #     if class_name is None:
+    #         print(list(models.storage.all().values()))
+    #         return
+    #     if class_name not in models.classes:
+    #         print("** class doesn't exist **")
+    #         return
+    #     print(list(models.storage.all(models.classes[class_name]).values()))
+
     def do_all(self, line):
         """Prints all string representation of all instances
         Exceptions:
             NameError: when there is no object taht has the name
         """
-        objects = storage.all()
+
         my_list = []
         if not line:
-            for key in objects:
-                my_list.append(objects[key])
+            obj_dict = storage.all()
+            for key in obj_dict:
+                my_list.append(obj_dict[key])
             print(my_list)
             return
         try:
             args = line.split(" ")
             if args[0] not in self.all_classes:
                 raise NameError()
-            for key in objects:
+            obj_dict = storage.all(args[0])
+            for key in obj_dict:
                 name = key.split('.')
                 if name[0] == args[0]:
-                    my_list.append(objects[key])
+                    my_list.append(obj_dict[key])
             print(my_list)
         except NameError:
             print("** class doesn't exist **")

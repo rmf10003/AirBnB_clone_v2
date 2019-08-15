@@ -42,7 +42,6 @@ class HBNBCommand(cmd.Cmd):
         """
         try:
             if not line:
-                
                 raise SyntaxError()
             parser = shlex.shlex(line, posix=True)
             parser.whitespace_split = True
@@ -51,7 +50,7 @@ class HBNBCommand(cmd.Cmd):
             token = ''
             while token is not None:
                 token = parser.get_token()
-                if token != None:
+                if token is not None:
                     my_list.append(token)
 
             kwargs = {}
@@ -59,10 +58,11 @@ class HBNBCommand(cmd.Cmd):
                 key, part, value = param.partition('=')
                 if value.isdigit() is True:
                     kwargs[key] = int(value)
-                elif value.count('.') == 1 and value.replace('.','').isdigit() is True:
+                elif (value.count('.') == 1
+                      and value.replace('.', '').isdigit() is True):
                     kwargs[key] = float(value)
                 else:
-                    kwargs[key] = value.replace('_',' ')
+                    kwargs[key] = value.replace('_', ' ')
             obj = models.classes[my_list[0]](**kwargs)
             obj.save()
             print("{}".format(obj.id))

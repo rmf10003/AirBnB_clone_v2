@@ -9,11 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from os import getenv
 
 
-storage = getenv("HBNB_TYPE_STORAGE")
-if storage == "db":
-    Base = declarative_base()
-else:
-    Base = object
+Base = declarative_base()
 
 class BaseModel:
     """This class will defines all common attributes/methods

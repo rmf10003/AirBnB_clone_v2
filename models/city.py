@@ -13,7 +13,7 @@ class City(BaseModel, Base):
         name: input name
     """
     __tablename__ = 'cities'
-    state_id = Column(String(60), ForeignKey('state.id'), nullable=False)
-    name = name = Column(String(128), nullable=False)
+    state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+    name = Column(String(128), nullable=False)
     # only for the dbstorage engine
     state = relationship("State", back_populates="cities")

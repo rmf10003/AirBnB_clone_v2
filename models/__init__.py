@@ -12,7 +12,7 @@ from models.review import Review
 from os import getenv
 
 
-classes = {'Place': Place, 'State': State, 'User': User, 'City': City, 'BaseModel': BaseModel}
+classes = {'Place': Place, 'Review': Review, 'State': State, 'User': User, 'City': City, 'BaseModel': BaseModel}
 
 # classes = {'User': User, 'State': State,
 # 'City': City, 'Amenity': Amenity, 'Place': Place,

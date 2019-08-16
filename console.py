@@ -58,8 +58,8 @@ class HBNBCommand(cmd.Cmd):
                 key, part, value = param.partition('=')
                 if value.isdigit() is True:
                     kwargs[key] = int(value)
-                elif value.count(
-                        '.') == 1 and value.replace('.', '').isdigit() is True:
+                elif (value.count('.') == 1
+                      and value.replace('.', '').isdigit() is True):
                     kwargs[key] = float(value)
                 else:
                     kwargs[key] = value.replace('_', ' ')

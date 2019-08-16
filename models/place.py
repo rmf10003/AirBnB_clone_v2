@@ -6,6 +6,11 @@ from sqlalchemy import Float, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
 
+# place_amenity = Table('place_amenity', Base.metadata,
+#                         Column('place_id', String(60),
+#                             ForeignKey('places.id'), nullable=False),
+#                         Column('amenity_id', String(60),
+#                             ForeignKey('amenities.id'), nullable=False))
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -36,9 +41,9 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         amenity_ids = []
 
-        reviews = relationship(
-            'Review', back_populates='place',
-            cascade='all, delete, delete-orphan')
+        # reviews = relationship(
+        #     'Review', back_populates='place',
+        #     cascade='all, delete, delete-orphan')
         user = relationship(
             'User', back_populates='places')  # cascade? slave
         # amenities = relationship(
@@ -58,15 +63,15 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
-    @property
-    def reviews(self):
-        """getter for review return list of reviews."""
-        reviews_inst = []
-        reviews_dict = models.storage.all('Review')
-        for key, value in reviews_dict.items():
-            if self.id == value.place_id:
-                reviews_inst.append(value)
-        return reviews_inst
+    # @property
+    # def reviews(self):
+    #     """getter for review return list of reviews."""
+    #     reviews_inst = []
+    #     reviews_dict = models.storage.all('Review')
+    #     for key, value in reviews_dict.items():
+    #         if self.id == value.place_id:
+    #             reviews_inst.append(value)
+    #     return reviews_inst
 
     # @property
     # def amenities(self):

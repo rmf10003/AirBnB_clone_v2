@@ -41,11 +41,14 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         amenity_ids = []
 
-        # reviews = relationship(
-        #     'Review', back_populates='place',
-        #     cascade='all, delete, delete-orphan')
+        reviews = relationship(
+            'Review', back_populates='place',
+            cascade='all, delete, delete-orphan'
+        )
+        
         user = relationship(
-            'User', back_populates='places')  # cascade? slave
+            'User', back_populates='places'
+        )
         # amenities = relationship(
         #     'Amenity', secondary=place_amenity,
         #     viewonly=False, back_populates='place_amenities')
@@ -63,15 +66,15 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
-    # @property
-    # def reviews(self):
-    #     """getter for review return list of reviews."""
-    #     reviews_inst = []
-    #     reviews_dict = models.storage.all('Review')
-    #     for key, value in reviews_dict.items():
-    #         if self.id == value.place_id:
-    #             reviews_inst.append(value)
-    #     return reviews_inst
+    @property
+    def reviews(self):
+        """getter for review return list of reviews."""
+        reviews_inst = []
+        reviews_dict = models.storage.all('Review')
+        for key, value in reviews_dict.items():
+            if self.id == value.place_id:
+                reviews_inst.append(value)
+        return reviews_inst
 
     # @property
     # def amenities(self):

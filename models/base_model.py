@@ -18,8 +18,8 @@ class BaseModel:
     """
 
     id = Column(String(60), primary_key=True, nullable=False)
-    create_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
 
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
@@ -38,16 +38,20 @@ class BaseModel:
                 if key != "__class__":
                     setattr(self, key, value)
         if 'id' not in self.__dict__.keys():
-                self.id = str(uuid.uuid4())
-                self.created_at = self.updated_at = datetime.now()
+            self.id = str(uuid.uuid4())
+        if 'created_at' not in self.__dict__.keys():
+            self.created_at = datetime.utcnow()
+        if 'updated_at' not in self.__dict__.keys():
+            self.updated_at = datetime.utcnow()
 
     def __str__(self):
         """returns a string
         Return:
             returns a string of class name, id, and dictionary
         """
+        my_dict = self.to_dict()
         return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, self.__dict__)
+            type(self).__name__, self.id, my_dict)
 
     def __repr__(self):
         """return a string representaion

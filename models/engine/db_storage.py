@@ -21,7 +21,13 @@ class DBStorage:
     """ class for DBstorage """
     __engine = None
     __session = None
-    classes = {'State': State, 'User': User, 'City': City, 'Place': Place, 'Review': Review}
+    classes = {
+        'State': State,
+        'User': User,
+        'City': City,
+        'Place': Place,
+        'Review': Review
+    }
 
     def __init__(self):
         """constructor for DBStorage instances
@@ -32,12 +38,16 @@ class DBStorage:
         HBNB_MYSQL_DB = os.getenv('HBNB_MYSQL_DB')
         HBNB_ENV = os.getenv('HBNB_ENV')
 
-        self.__engine = s.create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(HBNB_MYSQL_USER,
-                                              HBNB_MYSQL_PWD,
-                                              HBNB_MYSQL_HOST,
-                                              HBNB_MYSQL_DB),
-                                      pool_pre_ping=True)
+        self.__engine = s.create_engine(
+            'mysql+mysqldb://{}:{}@{}/{}'
+            .format(
+                HBNB_MYSQL_USER,
+                HBNB_MYSQL_PWD,
+                HBNB_MYSQL_HOST,
+                HBNB_MYSQL_DB
+            ),
+            pool_pre_ping=True
+        )
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -71,7 +81,12 @@ class DBStorage:
         ''' reloads data from DB '''
         Base.metadata.create_all(self.__engine)
 
-        session_factory = so.sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+        session_factory = so.sessionmaker(
+            bind=self.__engine,
+            expire_on_commit=False
+        )
         Session = so.scoped_session(session_factory)
         self.__session = Session()
+
+    # def close(self):
+    #     """close a session"""

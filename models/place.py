@@ -25,6 +25,7 @@ place_amenity = s.Table(
     )
 )
 
+
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
@@ -42,8 +43,16 @@ class Place(BaseModel, Base):
     """
     __tablename__ = 'places'
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        city_id = s.Column(s.String(60), s.ForeignKey('cities.id'), nullable=False)
-        user_id = s.Column(s.String(60), s.ForeignKey('users.id'), nullable=False)
+        city_id = s.Column(
+            s.String(60),
+            s.ForeignKey('cities.id'),
+            nullable=False
+        )
+        user_id = s.Column(
+            s.String(60),
+            s.ForeignKey('users.id'),
+            nullable=False
+        )
         name = s.Column(s.String(128), nullable=False)
         description = s.Column(s.String(1024), nullable=True)
         number_rooms = s.Column(s.Integer, nullable=False, default=0)
@@ -58,11 +67,11 @@ class Place(BaseModel, Base):
             'Review', back_populates='place',
             cascade='all, delete, delete-orphan'
         )
-        
+
         user = orm.relationship(
             'User', back_populates='places'
         )
-        
+
         amenities = orm.relationship(
             'Amenity', secondary='place_amenity',
             viewonly=False, back_populates='place_amenities')
@@ -96,7 +105,7 @@ class Place(BaseModel, Base):
         def amenities(self):
             """getter for amenities returns list of amenity instanc"""
             return self.amenity_ids
-    
+
         @amenities.setter
         def amenities(self, obj):
             """setter for amenities"""

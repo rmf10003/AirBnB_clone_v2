@@ -5,13 +5,14 @@ import os
 import sqlalchemy as s
 import sqlalchemy.orm as orm
 
+
 class Amenity(mb.BaseModel, mb.Base):
     """This is the class for Amenity
     Attributes:
         name: input name
     """
+    __tablename__ = 'amenities'
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        __tablename__ = 'amenities'
         name = s.Column(
             s.String(128),
             nullable=False

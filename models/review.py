@@ -5,6 +5,7 @@ import sqlalchemy as s
 import sqlalchemy.orm as so
 import os as o
 
+
 class Review(mb.BaseModel, mb.Base):
     """This is the class for Review
     Attributes:
@@ -34,7 +35,7 @@ class Review(mb.BaseModel, mb.Base):
             'Place',
             back_populates='reviews'
         )
-         
+
     else:
         place_id = ""
         user_id = ""

@@ -18,7 +18,7 @@ class DBStorage:
     """ class for DBstorage """
     __engine = None
     __session = None
-    classes = {'State': State, 'User': User, 'City': City, 'Place': Place}
+    classes = {'State': State, 'User': User, 'City': City, 'Place': Place, 'Review': Review}
 
     def __init__(self):
         """constructor for DBStorage instances

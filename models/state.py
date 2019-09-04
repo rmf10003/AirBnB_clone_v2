@@ -17,9 +17,11 @@ class State(mb.BaseModel, mb.Base):
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         name = s.Column(s.String(128), nullable=False)
-        cities = orm.relationship("City",
-                              back_populates="state",
-                              cascade="all, delete, delete-orphan")
+        cities = orm.relationship(
+            "City",
+            back_populates="state",
+            cascade="all, delete, delete-orphan"
+        )
     elif os.getenv('HBNB_TYPE_STORAGE') == 'fs':
         name = ""
 

@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """start a Flask web app"""
-import flask
+from flask import Flask, render_template
 
 
-app = flask.Flask('web_flask')
+app = Flask('web_flask')
 
 
 @app.route('/', strict_slashes=False)
@@ -42,13 +42,13 @@ def intcheck(n):
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def num_template(n):
     """display HTML page if n is an int"""
-    return flask.render_template('5-number.html', title='HBNB', number=n)
+    return render_template('5-number.html', title='HBNB', number=n)
 
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def num_oddeven(n):
     """render html from template based on even or odd param"""
-    return flask.render_template(
+    return render_template(
         '6-number_odd_or_even.html',
         title='HBNB',
         number=n

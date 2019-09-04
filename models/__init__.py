@@ -12,11 +12,15 @@ from models.review import Review
 from os import getenv
 
 
-classes = {'Place': Place, 'State': State, 'User': User, 'City': City, 'BaseModel': BaseModel, 'Review': Review}
-
-# classes = {'User': User, 'State': State,
-# 'City': City, 'Amenity': Amenity, 'Place': Place,
-# 'Review': Review, 'BaseModel': BaseModel}
+classes = {
+    'Place': Place,
+    'State': State,
+    'User': User,
+    'City': City,
+    'BaseModel': BaseModel,
+    'Review': Review,
+    'Amenity': Amenity
+}
 
 if getenv("HBNB_TYPE_STORAGE") == "db":
     storage = DBStorage()

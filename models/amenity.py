@@ -3,7 +3,7 @@
 import models.base_model as mb
 import os
 import sqlalchemy as s
-import sqlalchemy.orm as so
+import sqlalchemy.orm as orm
 
 class Amenity(mb.BaseModel, mb.Base):
     """This is the class for Amenity
@@ -16,9 +16,10 @@ class Amenity(mb.BaseModel, mb.Base):
             s.String(128),
             nullable=False
         )
-        place_amenities = s.relationship(
-            
-
-
-
-    name = ""
+        place_amenities = orm.relationship(
+            "Place",
+            secondary="place_amenity",
+            back_populates="amenities"
+        )
+    else:
+        name = ""

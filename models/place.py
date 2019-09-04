@@ -1,16 +1,29 @@
 #!/usr/bin/python3
 """This is the place class"""
-from models.base_model import BaseModel, Base, Column, String
-from models.base_model import Integer
-from sqlalchemy import Float, Table, ForeignKey
-from sqlalchemy.orm import relationship
-from os import getenv
+from models.base_model import BaseModel, Base
+import sqlalchemy as s
+import sqlalchemy.orm as orm
+import os
 
-# place_amenity = Table('place_amenity', Base.metadata,
-#                         Column('place_id', String(60),
-#                             ForeignKey('places.id'), nullable=False),
-#                         Column('amenity_id', String(60),
-#                             ForeignKey('amenities.id'), nullable=False))
+metadata = Base.metadata
+
+place_amenity = s.Table(
+    'place_amenity', metadata,
+    s.Column(
+        'place_id',
+        s.String(60),
+        s.ForeignKey('places.id'),
+        primary_key=True,
+        nullable=False
+    ),
+    s.Column(
+        'amenity_id',
+        s.String(60),
+        s.ForeignKey('amenities.id'),
+        primary_key=True,
+        nullable=False
+    )
+)
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -28,31 +41,33 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
-        user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-        name = Column(String(128), nullable=False)
-        description = Column(String(1024), nullable=True)
-        number_rooms = Column(Integer, nullable=False, default=0)
-        number_bathrooms = Column(Integer, nullable=False, default=0)
-        max_guest = Column(Integer, nullable=False, default=0)
-        price_by_night = Column(Integer, nullable=False, default=0)
-        latitude = Column(Float, nullable=True)
-        longitude = Column(Float, nullable=True)
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        city_id = s.Column(s.String(60), s.ForeignKey('cities.id'), nullable=False)
+        user_id = s.Column(s.String(60), s.ForeignKey('users.id'), nullable=False)
+        name = s.Column(s.String(128), nullable=False)
+        description = s.Column(s.String(1024), nullable=True)
+        number_rooms = s.Column(s.Integer, nullable=False, default=0)
+        number_bathrooms = s.Column(s.Integer, nullable=False, default=0)
+        max_guest = s.Column(s.Integer, nullable=False, default=0)
+        price_by_night = s.Column(s.Integer, nullable=False, default=0)
+        latitude = s.Column(s.Float, nullable=True)
+        longitude = s.Column(s.Float, nullable=True)
         amenity_ids = []
 
-        reviews = relationship(
+        reviews = orm.relationship(
             'Review', back_populates='place',
             cascade='all, delete, delete-orphan'
         )
         
-        user = relationship(
+        user = orm.relationship(
             'User', back_populates='places'
         )
-        # amenities = relationship(
-        #     'Amenity', secondary=place_amenity,
-        #     viewonly=False, back_populates='place_amenities')
-        cities = relationship(
+        
+        amenities = orm.relationship(
+            'Amenity', secondary='place_amenity',
+            viewonly=False, back_populates='place_amenities')
+
+        cities = orm.relationship(
             'City', back_populates='places')
     else:
         city_id = ""
@@ -77,13 +92,13 @@ class Place(BaseModel, Base):
                     reviews_inst.append(value)
             return reviews_inst
 
-    # @property
-    # def amenities(self):
-    #     """getter for amenities returns list of amenity instanc"""
-    #     return self.amenity_ids
+        @property
+        def amenities(self):
+            """getter for amenities returns list of amenity instanc"""
+            return self.amenity_ids
     
-    # @amenities.setter
-    # def amenities(self, obj):
-    #     """setter for amenities"""
-    #     if isinstance(obj, Amenity):
-    #         self.amenity_ids.append(obj.id)
+        @amenities.setter
+        def amenities(self, obj):
+            """setter for amenities"""
+            if isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)

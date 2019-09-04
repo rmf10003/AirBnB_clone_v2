@@ -1,33 +1,33 @@
 #!/usr/bin/python3
 """This is the state class"""
-from models.base_model import BaseModel, Base
-from models.city import City
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
-from os import getenv
+import models
+import models.base_model as mb
+import models.city as mc
+import sqlalchemy as s
+import sqlalchemy.orm as orm
+import os
 
 
-class State(BaseModel, Base):
+class State(mb.BaseModel, mb.Base):
     """This is the class for State
     Attributes:
         name: input name
     """
     __tablename__ = 'states'
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        name = Column(String(128), nullable=False)
-        cities = relationship("City",
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        name = s.Column(s.String(128), nullable=False)
+        cities = orm.relationship("City",
                               back_populates="state",
                               cascade="all, delete, delete-orphan")
-    elif getenv('HBNB_TYPE_STORAGE') == 'file':
+    elif os.getenv('HBNB_TYPE_STORAGE') == 'fs':
         name = ""
 
         @property
         def cities(self):
+            '''not sure if City is callable also link getter to init?'''
             c_list = []
-            '''###########not sure if City is callable
-            ############link getter to init?'''
-            aC_dict = models.storage.all(City)
+            aC_dict = models.storage.all(mc.City)
             for c_objs in aC_dict.values():
                 if c_objs.state_id == self.id:
                     c_list.append(c_objs)

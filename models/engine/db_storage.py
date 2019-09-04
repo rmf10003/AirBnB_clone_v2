@@ -2,7 +2,7 @@
 """module for database storage class for AirBnB"""
 import os
 import sqlalchemy as s
-import sqlalchemy.orm as so
+import sqlalchemy.orm as orm
 import models as m
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -12,15 +12,12 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
-# import sqlalchemy
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker, scoped_session
-
 
 class DBStorage:
     """ class for DBstorage """
     __engine = None
     __session = None
+    __Session = None
     classes = {
         'State': State,
         'User': User,
@@ -81,12 +78,15 @@ class DBStorage:
         ''' reloads data from DB '''
         Base.metadata.create_all(self.__engine)
 
-        session_factory = so.sessionmaker(
+        session_factory = orm.sessionmaker(
             bind=self.__engine,
             expire_on_commit=False
         )
-        Session = so.scoped_session(session_factory)
+        Session = orm.scoped_session(session_factory)
+        self.__Session = Session
         self.__session = Session()
 
-    # def close(self):
-    #     """close a session"""
+    def close(self):
+        """close a session"""
+        self.__Session.remove()
+        self.reload()

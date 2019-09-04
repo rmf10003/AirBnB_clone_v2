@@ -55,8 +55,10 @@ class HBNBCommand(cmd.Cmd):
                 key, part, value = param.partition('=')
                 if value.isdigit() is True:
                     kwargs[key] = int(value)
-                elif (value.count('.') == 1
-                      and value.replace('.', '').isdigit() is True):
+                elif (
+                        value.count('.') == 1 and
+                        value.replace('.', '').isdigit() is True
+                ):
                     kwargs[key] = float(value)
                 else:
                     kwargs[key] = value.replace('_', ' ')
@@ -169,7 +171,6 @@ class HBNBCommand(cmd.Cmd):
         except NameError:
             print("** class doesn't exist **")
 
-            
     def do_update(self, line):
         """Updates an instanceby adding or updating attribute
         Exceptions:

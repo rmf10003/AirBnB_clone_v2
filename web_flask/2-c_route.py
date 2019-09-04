@@ -1,9 +1,10 @@
+
 #!/usr/bin/python3
 """start a Flask web app"""
 import flask
 
 
-app = flask.Flask('web_flask')
+app = flask.Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)

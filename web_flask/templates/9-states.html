@@ -4,18 +4,28 @@
     <TITLE>HBNB</TITLE>
   </HEAD>
   <BODY>
-    <H1>{{ header }}</H1>
+    {% if s_id is none %}
+    <H1>States</H1>
     <UL>
       {% for state in state_dict.values()|sort(attribute='name') %}
-      <LI>{{ state.id }}: <B>{{ state.name }}</B>
-	
-	<UL>
-	{% for city in state.cities|sort(attribute='name') %}
-	<LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
-	{% endfor %}
-      </UL>
-      </LI>
+      <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
       {% endfor %}
     </UL>
+    {%- endif %}
+
+    {%- for state in state_dict.values() %}
+    {%- if s_id == state.id %}
+    <H1>State: {{ state.name }}</H1>
+    <UL>
+      {%- for city in state.cities|sort(attribute='name') %}
+      <LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
+      {%- endfor %}
+    </UL>
+    {% endif %}
+    {%- endfor %}
+
+    {%- if (s_id is not none) and (s_id is not in id_list) %}
+    <H1>Not found!</H1>
+    {%- endif %}
   </BODY>
   </HTML>

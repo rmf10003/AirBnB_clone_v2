@@ -13,10 +13,12 @@ app.url_map.strict_slashes = False
 @app.route('/states/<string:id>')
 def states(id):
     """render html of states list"""
+    states = storage.all('State')
+    state_ids = [s.id for s in states.values()]
     return render_template(
         '9-states.html',
-        header='States',
-        state_dict=storage.all('State'),
+        state_dict=states,
+        id_list=state_ids,
         s_id=id
     )
 

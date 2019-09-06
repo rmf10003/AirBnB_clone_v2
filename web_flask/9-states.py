@@ -7,21 +7,18 @@ from models import storage
 app = Flask('web_flask')
 
 
-@app.route('/states', strict_slashes=False)
-def states():
+app.url_map.strict_slashes = False
+
+@app.route('/states', defaults={'id': None})
+@app.route('/states/<string:id>')
+def states(id):
     """render html of states list"""
     return render_template(
         '9-states.html',
         header='States',
         state_dict=storage.all('State'),
+        s_id=id
     )
-
-
-@app.route('/states/<id>', strict_slashes=False)
-def states_id():
-    """render template for given id"""
-    
-
 
 @app.teardown_appcontext
 def app_close(a):

@@ -8,7 +8,8 @@
     <UL>
       {% for state in state_dict.values()|sort(attribute='name') %}
       <LI>{{ state.id }}: <B>{{ state.name }}</B>
-      <UL>
+	
+	<UL>
 	{% for city in state.cities|sort(attribute='name') %}
 	<LI>{{ city.id }}: <B>{{ city.name }}</B></LI>
 	{% endfor %}
